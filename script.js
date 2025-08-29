@@ -3,10 +3,10 @@ document.addEventListener("DOMContentLoaded",()=>{
     const arenaSize = 600;
     const cellSize = 20;
     let score = 0;
-    let gameStart = false;
+    let gameStarted = false;
     let food = {x:300 , y: 200}
     let snake = [{x:160, y:200},{x:140, y:200}, {x:120, y:200}];
-    let dx =cellSize;
+    let dx = cellSize;
     let dy = 0;
 
     function drawFoodAndSnake(){
@@ -52,18 +52,36 @@ document.addEventListener("DOMContentLoaded",()=>{
         } else {snake.pop()}
          
     }
+    function isGameOver(){
+        for (let i = 1; i < snake.length; i++) {
+            if(snake[0].x === snake[i].x && snake[0].y === snake[i].y) return true;
+        }
+        const ifHittingLeftWall = snake[0].x < 0;
+        const ifHittingTopWall = snake[0].y < 0;
+        const ifHittingRightWall = snake[0].x >= arenaSize;
+        const ifHittingBottomWall = snake[0].y >= arenaSize;
+
+        return ifHittingLeftWall || ifHittingRightWall || ifHittingTopWall || ifHittingBottomWall ;
+    }
 
     function gameLoop(){
         setInterval(() => {
+            if(!gameStarted) return;
+            if(isGameOver()){
+                gameStarted = false;
+                alert(`Game is over Score: ${score}`);
+                window.location.reload();
+                return;
+            }
             updateSnake();
             drawScoreBoard();
             drawFoodAndSnake();
             
-        }, 1000);
+        }, 500);
     }
 
     function runGame(){
-        gameStart = true;
+        gameStarted = true;
         gameLoop();
 
     }
