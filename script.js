@@ -9,11 +9,44 @@ document.addEventListener("DOMContentLoaded",()=>{
     let dx =cellSize;
     let dy = 0;
 
+    function drawFoodAndSnake(){
+        gameArena.innerHTML = ' '; 
+        const foodElement = drawDiv(food.x, food.y, 'food');
+        gameArena.appendChild(foodElement);
+    }
+    function drawDiv(x, y, className){
+        const div = document.createElement('div');
+        div.classList.add(className);
+        div.style.top =`${y}px`;
+        div.style.left =`${x}px`;
+        return div;
 
-    function startGame(){
+
+    }
+    function drawScoreBoard(){
+        const scoreBoard = document.getElementById('score-board');
+        scoreBoard.textContent = `Score: ${score}`
+
+    }
+
+    function gameLoop(){
+        setInterval(() => {
+            drawScoreBoard();
+            drawFoodAndSnake()
+        }, 1000);
+    }
+
+    function runGame(){
+        gameStart = true;
+        gameLoop();
+
+    }
+
+
+    function initiateGame(){
         const scoreBoard = document.createElement('div');
         scoreBoard.id = 'score-board';
-        scoreBoard.textContent = '7';
+        scoreBoard.textContent = `score: 0`;
         document.body.insertBefore(scoreBoard, gameArena);
 
         const startButton  = document.createElement('button');
@@ -23,9 +56,10 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 
         startButton.addEventListener('click',()=>{
-            
+            startButton.style.display = 'none';
+            runGame();
         })
 
     };
-    startGame();
+    initiateGame();
 });
