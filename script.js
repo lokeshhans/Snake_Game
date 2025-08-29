@@ -32,11 +32,33 @@ document.addEventListener("DOMContentLoaded",()=>{
         scoreBoard.textContent = `Score: ${score}`
 
     }
+    function moveFood(){
+        let newX, newY;
+        do{
+            newX = Math.floor(Math.random() * ((arenaSize - cellSize) / cellSize) * cellSize);
+            newY = Math.floor(Math.random() * ((arenaSize - cellSize) / cellSize) * cellSize);
+        } while (snake.some(snakeCell => snakeCell.x === newX && snakeCell.y === newY));
+        food = {x: newX, y: newY}
+    }
+
+    function updateSnake(){
+        const newHead = {x: snake[0].x + dx, y: snake[0].y + dy};
+        snake.unshift(newHead);
+        if (newHead.x === food.x && newHead.y === food.y) {
+            //collision
+            score += 5;
+            moveFood();
+            //update food
+        } else {snake.pop()}
+         
+    }
 
     function gameLoop(){
         setInterval(() => {
+            updateSnake();
             drawScoreBoard();
-            drawFoodAndSnake()
+            drawFoodAndSnake();
+            
         }, 1000);
     }
 
