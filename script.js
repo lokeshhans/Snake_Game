@@ -12,6 +12,10 @@ document.addEventListener("DOMContentLoaded",()=>{
     function drawFoodAndSnake(){
         gameArena.innerHTML = ' '; 
         const foodElement = drawDiv(food.x, food.y, 'food');
+        snake.forEach((snakeCell)=>{
+            const element  = drawDiv(snakeCell.x, snakeCell.y, 'snake');
+            gameArena.appendChild(element);
+        })
         gameArena.appendChild(foodElement);
     }
     function drawDiv(x, y, className){
@@ -46,7 +50,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     function initiateGame(){
         const scoreBoard = document.createElement('div');
         scoreBoard.id = 'score-board';
-        scoreBoard.textContent = `score: 0`;
+        scoreBoard.textContent = '';
         document.body.insertBefore(scoreBoard, gameArena);
 
         const startButton  = document.createElement('button');
